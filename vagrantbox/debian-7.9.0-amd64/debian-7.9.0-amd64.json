@@ -1,0 +1,63 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "<esc><wait>",
+        "install <wait>",
+        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg <wait>",
+        "debian-installer=en_US <wait>",
+        "auto <wait>",
+        "locale=en_US <wait>",
+        "kbd-chooser/method=us <wait>",
+        "netcfg/get_hostname={{ .Name }} <wait>",
+        "netcfg/get_domain=vagrantup.com <wait>",
+        "fb=false <wait>",
+        "debconf/frontend=noninteractive <wait>",
+        "console-setup/ask_detect=false <wait>",
+        "console-keymaps-at/keymap=us <wait>",
+        "keyboard-configuration/xkb-keymap=us <wait>",
+        "<enter><wait>"
+      ],
+      "type": "virtualbox-iso",
+      "virtualbox_version_file": ".vbox_version",
+      "headless": true,
+      "guest_os_type": "Debian_64",
+      "disk_size": 10140,
+      "boot_wait": "10s",
+      "iso_url": "http://cdimage.debian.org/cdimage/archive/7.9.0/amd64/iso-cd/debian-7.9.0-amd64-netinst.iso",
+      "iso_checksum": "bfa1f3e20dd9a375335396a5a5b6dbdebd5e5600fa615a7db08fcb5b6d35dc8fc8322d6d32906a83504dd3af19806bb48effd9131d3e65d367f6b6eb96dcf780",
+      "iso_checksum_type": "sha512",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "http_directory": "http",
+      "ssh_password": "vagrant",
+      "ssh_username": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "vm_name": "debian-7-9-0-amd64",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -hP now",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--memory", "256"],
+        ["modifyvm", "{{.Name}}", "--cpus", "1"]
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "output": "build/debian-7.9.0-amd64-puppet.box",
+      "type": "vagrant"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "scripts": [
+        "scripts/base.sh",
+        "scripts/puppet.sh",
+        "scripts/virtualbox.sh",
+        "scripts/vagrant.sh",
+        "scripts/cleanup.sh"
+      ]
+    }
+  ]
+}

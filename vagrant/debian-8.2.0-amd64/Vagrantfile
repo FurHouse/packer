@@ -1,0 +1,20 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "debian-8.2.0-amd64-puppet"
+  config.vm.box_url = "../../vagrantbox/debian-8.2.0-amd64/build/debian-8.2.0-amd64-puppet.box"
+
+  config.vm.hostname = "debian-8.2.0-amd64"
+
+  config.vm.provider :virtualbox do |virtualbox|
+    virtualbox.customize ["modifyvm", :id, "--name", "debian-8.2.0-amd64"]
+    virtualbox.customize ["modifyvm", :id, "--memory", "512"]
+  end
+
+  config.vm.provision "shell" do |run|
+    run.path = "bootstrap.sh"
+  end
+
+end

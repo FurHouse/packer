@@ -1,0 +1,35 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "debian-8-daily-amd64-puppet"
+  config.vm.box_url = "../../vagrantbox/debian-8-daily-amd64/build/debian-8-daily-amd64-puppet.box"
+
+  config.vm.hostname = "debian-8-daily-amd64"
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+  # config.vm.network "private_network", ip: "192.168.33.10"
+  # config.vm.network "public_network", bridge: 'eth0'
+
+  config.vm.provider :virtualbox do |virtualbox|
+    # virtualbox.gui = true
+    virtualbox.customize ["modifyvm", :id, "--name", "debian-8-daily-amd64"]
+    virtualbox.customize ["modifyvm", :id, "--memory", "512"]
+    virtualbox.customize ["modifyvm", :id, "--natdnshostresolver1", "on"] # Using the host's resolver as a DNS proxy in NAT mode
+    virtualbox.customize ["modifyvm", :id, "--natdnsproxy1", "on"] # Enabling DNS proxy in NAT mode
+    virtualbox.customize ["modifyvm", :id, "--cpuexecutioncap", "50"] # How much cpu% a virtual CPU can use.
+  end
+
+  config.vm.provision "shell" do |shell|
+    shell.path = "bootstrap.sh"
+  end
+
+  config.vm.provision "shell", inline: "sudo apt-get install librarian-puppet -y"
+  config.vm.provision "shell", inline: "cd /etc/puppet/ && sudo cp /vagrant/Puppetfile . && sudo librarian-puppet install --verbose"
+
+  config.vm.provision "puppet" do |puppet|
+    puppet.manifests_path = "manifests"
+    puppet.manifest_file = "default.pp"
+  end
+
+end
