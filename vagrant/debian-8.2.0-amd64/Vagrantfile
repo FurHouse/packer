@@ -9,6 +9,7 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "debian-8.2.0-amd64"
 
   config.vm.provider :virtualbox do |virtualbox|
+    virtualbox.gui = true
     virtualbox.customize ["modifyvm", :id, "--name", "debian-8.2.0-amd64"]
     virtualbox.customize ["modifyvm", :id, "--memory", "512"]
   end

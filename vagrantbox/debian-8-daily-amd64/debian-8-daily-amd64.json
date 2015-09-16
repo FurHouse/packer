@@ -25,7 +25,7 @@
       "disk_size": 10140,
       "boot_wait": "10s",
       "iso_url": "http://cdimage.debian.org/cdimage/daily-builds/daily/current/amd64/iso-cd/debian-testing-amd64-netinst.iso",
-      "iso_checksum": "317a3b5b504d9977b8692cc12abad6e2660a0f2007394ad729bbd606f60a0c394f1259f4a7bd1a8d602e319498d3f77600777b5e2324ba1d983c36bb904382e0",
+      "iso_checksum": "02bd9151d8d37e3a5c6547f5032e1a6c6f91d04c09befc63fe47390508b210a005dfdf1ac7ea1dc0696509b19df57042e4ed8b1cedb95e9f24d9a413fb26a364",
       "iso_checksum_type": "sha512",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "http_directory": "http",
