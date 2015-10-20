@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "debian-8-daily-amd64-puppet"
   config.vm.box_url = "../../vagrantbox/debian-8-daily-amd64/build/debian-8-daily-amd64-puppet.box"
 
-  config.vm.hostname = "debian-8-daily-amd64"
+  # config.vm.hostname = "debian-8-daily-amd64"
   # config.vm.network "forwarded_port", guest: 80, host: 8080
   # config.vm.network "private_network", ip: "192.168.33.10"
   # config.vm.network "public_network", bridge: 'eth0'
